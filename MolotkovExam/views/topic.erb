@@ -1,0 +1,40 @@
+<div class="grid-x">
+  <div class="cell large-12">
+    <h3>Информация о темах</h3>
+
+    <p>Тема: <%= @topic.name %></p>
+    <p>Описание: <%= @topic.description %></p>
+    <p>Приоритет: <%= @topic.priority %></p>
+    <p>Дата публикации: <%= @topic.last_update %></p>
+   
+          <div class="grid-x grid-margin-x">
+        <div class="cell large-12">
+          <h3>События: </h3>
+       <% if @events.size == 0 %>
+        <div class="cell large-12 callout warning">
+          В приложении нет информации о Событиях.
+          Добавить?
+        </div>
+      <% else%>
+        <% @events.each do |event| %>
+          <div class="card cell large-4">
+            <div class="card-divider">
+              <%= event.name %>
+            </div>
+            <div class="card-section">
+              <p><%= event.description %></p>
+              <p>
+                <a class="button" href="/topics/<%= @topic.id %>/<%= event.id %>">Информация о событии</a>
+              <p>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+      
+
+
+    <a class="button" href="/topics/<%= @topic.id %>/edit">Редактировать</a>
+    <a class="button warning" href="/topics/<%= @topic.id %>/delete">Удалить</a>
+    <a class="button secondary" href="/topics">Назад к списку тем</a>
+  </div>
+</div>

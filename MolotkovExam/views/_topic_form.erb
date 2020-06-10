@@ -1,16 +1,16 @@
 <% form({ method: :post },{ obj: @parameters }) do |f| %>
   <div class="grid-x grid-margin-x">
     <div class="large-12 cell">
-      <%= f.input(:name, type: :text, label: 'Название книги', placeholder: 'Путь Ruby')%>
+      <%= f.input(:name, type: :text, label: 'Название темы', placeholder: 'Путь Ruby')%>
     </div>
     <div class="large-12 cell">
-      <%= f.input(:description, type: :text, label: 'Автор', placeholder: 'Фултон Хел')%>
+      <%= f.input(:description, type: :text, label: 'Описание темы', placeholder: 'Фултон Хел')%>
     </div>
     <div class="large-12 cell">
-       <%= f.input(:priority, type: :radioset, label: 'Оценка', options: 1.upto(4).to_a) %>
+       <%= f.input(:priority, type: :radioset, label: 'Рейтинг', options: 1.upto(4).to_a) %>
     </div>
     <div class="large-12 cell">
-      <%= f.input(:last_update, type: :date, label: 'Дата публикации 2', placeholder: '2020-12-10')%>
+      <%= f.input(:last_update, type: :date, label: 'Дата публикации', placeholder: '2020-12-10')%>
     </div>
     <div class="large-12 cell">
       <%= f.button(value: form_type, class: 'button') %>

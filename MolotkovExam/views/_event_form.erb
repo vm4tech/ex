@@ -1,0 +1,20 @@
+<% form({ method: :post },{ obj: @parameters }) do |f| %>
+  <div class="grid-x grid-margin-x">
+    <div class="large-12 cell">
+      <%= f.input(:name, type: :text, label: 'Название темы', placeholder: 'Путь Ruby')%>
+    </div>
+    <div class="large-12 cell">
+      <%= f.input(:description, type: :text, label: 'Описание темы', placeholder: 'Фултон Хел')%>
+    </div>
+    <div class="large-12 cell">
+       <%= f.input(:start_time, type: :date, label: 'Начало события', placeholder: '2020-12-10') %>
+    </div>
+    <div class="large-12 cell">
+      <%= f.input(:end_time, type: :date, label: 'Конец события', placeholder: '2020-12-10')%>
+    </div>
+    <div class="large-12 cell">
+      <%= f.button(value: form_type, class: 'button') %>
+      <a href="<%= back_location %>" class="button secondary">Отмена</a>
+    </div>
+  </div>
+<% end %>

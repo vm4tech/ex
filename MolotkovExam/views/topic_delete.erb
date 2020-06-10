@@ -1,6 +1,7 @@
 <div class="grid-x grid-margin-x">
   <div class="cell large-12 warning">
-    Вы действительно хотите удалить книгу <%= @book.name %>?
+    Вы действительно хотите удалить тему? <%= @topic.name %>?
+    <p> Так же будут удалены все события </p>
   </div>
 </div>
 
@@ -11,7 +12,7 @@
     </div>
     <div class="large-12 cell">
       <%= f.button(value: 'Удалить', class: 'button warning') %>
-      <a href="/books/<%= @book.id %>" class="button secondary">Отмена</a>
+      <a href="/topics/<%= @topic.id %>" class="button secondary">Отмена</a>
     </div>
   </div>
 <% end %>

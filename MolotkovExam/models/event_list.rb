@@ -39,7 +39,7 @@ class EventList
     events.end_time = parameters[:end_time]
   end
 
-  def delete_events(id)
+  def delete_event(id)
     @events.delete(id)
   end
 end

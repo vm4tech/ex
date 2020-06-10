@@ -1,0 +1,29 @@
+<div class="grid-x grid-margin-x">
+  <div class="cell large-12">
+    <h3>Список тем</h3>
+
+    <a href="/topics/new" class="button">
+      Добавить
+    </a>
+  </div>
+
+  <% if @topics.size == 0 %>
+    <div class="cell large-12 callout warning">
+      В приложении нет информации о темах
+    </div>
+  <% else %>
+    <% @topics.each do |topic| %>
+      <div class="card cell large-4">
+        <div class="card-divider">
+          <%= topic.name %>
+        </div>
+        <div class="card-section">
+          <p><%= topic.description %></p>
+          <p>
+            <a class="button" href="/topics/<%= topic.id %>">Информация о теме</a>
+          <p>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

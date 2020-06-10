@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'book_application'
+require_relative 'topic_application'
 
-run BookApplication.app
+run TopicApplication.app

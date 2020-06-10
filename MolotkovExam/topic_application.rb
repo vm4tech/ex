@@ -7,7 +7,7 @@ require 'roda'
 require_relative 'models'
 
 # The application class
-class BookApplication < Roda
+class TopicApplication < Roda
   opts[:root] = __dir__
   plugin :environments
   plugin :forme
@@ -19,9 +19,9 @@ class BookApplication < Roda
     opts[:serve_static] = true
   end
 
-  opts[:books] = BookList.new(
+  opts[:topics] = TopicList.new(
     [
-      Book.new(
+      Topic.new(
         id: 25,
         name: 'Programming Ruby 1.9 & 2.0',
         description: 'Dave Thomas',
@@ -44,7 +44,7 @@ class BookApplication < Roda
           )
         ])
       ),
-      Book.new(
+      Topic.new(
         id: 5,
         name: 'The Pragmatic Programmer',
         description: 'Dave Thomas, Andreyw Hunt',
@@ -63,30 +63,30 @@ class BookApplication < Roda
     r.public if opts[:serve_static]
 
     r.root do
-      r.redirect '/books'
+      r.redirect '/topics'
     end
 
-    r.on 'books' do
+    r.on 'topics' do
       r.is do
-        @books = opts[:books].all_books
-        view('books')
+        @topics = opts[:topics].all_topics
+        view('topics')
       end
 
-      r.on Integer do |book_id|
-        @book = opts[:books].book_by_id(book_id)
-        @events = @book.event_list.all_events
+      r.on Integer do |topic_id|
+        @topic = opts[:topics].topic_by_id(topic_id)
+        @events = @topic.event_list.all_events
         # pp @events
-        next if @book.nil?
+        next if @topic.nil?
         
         r.is do
-          view('book')
+          view('topic')
         end
         
         r.on Integer do |event_id|
-          @event = @book.event_list.event_by_id(event_id)
+          @event = @topic.event_list.event_by_id(event_id)
           next if @event.nil?
           r.is do
-            view('book')
+            view('event')
           end
 
           r.on 'edit' do
@@ -98,44 +98,62 @@ class BookApplication < Roda
               r.post do
                 @parameters = DryResultFormeWrapper.new(EventFromSchema.call(r.params))
                 if @parameters.success?
-                  opts[:books].book_by_id(book_id).event_list.update_events(@event.id,@parameters)
+                  opts[:topics].topic_by_id(topic_id).event_list.update_events(@event.id, @parameters)
                 end
               end
+          end
+
+          r.on 'delete' do
+            r.get do
+              @parameters = {}
+              view('topic_delete')
+            end
+
+            r.post do
+              @parameters = DryResultFormeWrapper.new(DeleteSchema.call(r.params))
+              if @parameters.success?
+                opts[:topics].topic_by_id(topic_id).event_list.delete_event(@event.id)
+                r.redirect('/topics')
+              else
+                view('topic_delete')
+              end
+            end
           end
           
         end
 
         r.on 'edit' do
           r.get do
-            @parameters = @book.to_h
-            view('book_edit')
+            @parameters = @topic.to_h
+            view('topic_edit')
           end
             
           r.post do
-            @parameters = DryResultFormeWrapper.new(BookFormSchema.call(r.params))
+            @parameters = DryResultFormeWrapper.new(TopicFormSchema.call(r.params))
             if @parameters.success?
-              opts[:books].update_book(@book.id, @parameters)
+              opts[:topics].update_topic(@topic.id, @parameters)
               
-              r.redirect "/books/#{@book.id}"
+              r.redirect "/topics/#{@topic.id}"
             else
-              view('book_edit')
+              view('topic_edit')
             end
           end
         end
+        
 
         r.on 'delete' do
           r.get do
             @parameters = {}
-            view('book_delete')
+            view('topic_delete')
           end
 
           r.post do
-            @parameters = DryResultFormeWrapper.new(BookDeleteSchema.call(r.params))
+            @parameters = DryResultFormeWrapper.new(DeleteSchema.call(r.params))
             if @parameters.success?
-              opts[:books].delete_book(@book.id)
-              r.redirect('/books')
+              opts[:topics].delete_topic(@topic.id)
+              r.redirect('/topics')
             else
-              view('book_delete')
+              view('topic_delete')
             end
           end
         end
@@ -144,16 +162,16 @@ class BookApplication < Roda
       r.on 'new' do
         r.get do
           @parameters = {}
-          view('book_new')
+          view('topic_new')
         end
 
         r.post do
-          @parameters = DryResultFormeWrapper.new(BookFormSchema.call(r.params))
+          @parameters = DryResultFormeWrapper.new(TopicFormSchema.call(r.params))
           if @parameters.success?
-            book_id = opts[:books].add_book(@parameters)
-            r.redirect "/books/#{book_id}"
+            topic_id = opts[:topics].add_topic(@parameters)
+            r.redirect "/topics/#{topic_id}"
           else
-            view('book_new')
+            view('topic_new')
           end
         end
       end
