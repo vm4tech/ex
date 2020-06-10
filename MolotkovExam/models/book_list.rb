@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'book'
+require_relative 'event_list'
 
 # The class that contains all our books
 class BookList
@@ -40,7 +41,6 @@ class BookList
     book.description = parameters[:description]
     book.priority = parameters[:priority]
     book.last_update = parameters[:last_update]
-    book.event_list = []
   end
 
   def delete_book(id)

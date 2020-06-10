@@ -27,7 +27,22 @@ class BookApplication < Roda
         description: 'Dave Thomas',
         priority: 2,
         last_update: Date.parse('2013-06-20'),
-        event_list: []
+        event_list: EventList.new([
+          Event.new(
+            id: 1,
+            name: 'Vlad',
+            description: 'Molotkov',
+            start_time: '2000-07-20',
+            end_time: '2000-07-22'
+          ),
+          Event.new(
+            id: 30,
+            name: 'Den',
+            description: 'Zyablitcev',
+            start_time: '2000-07-23',
+            end_time: '2000-07-24'
+          )
+        ])
       ),
       Book.new(
         id: 5,
@@ -59,11 +74,35 @@ class BookApplication < Roda
 
       r.on Integer do |book_id|
         @book = opts[:books].book_by_id(book_id)
-      
+        @events = @book.event_list.all_events
+        # pp @events
         next if @book.nil?
-
+        
         r.is do
           view('book')
+        end
+        
+        r.on Integer do |event_id|
+          @event = @book.event_list.event_by_id(event_id)
+          next if @event.nil?
+          r.is do
+            view('book')
+          end
+
+          r.on 'edit' do
+              r.get do 
+                @parameters = @event.to_h
+                view('event_edit')
+              end
+
+              r.post do
+                @parameters = DryResultFormeWrapper.new(EventFromSchema.call(r.params))
+                if @parameters.success?
+                  opts[:books].book_by_id(book_id).event_list.update_events(@event.id,@parameters)
+                end
+              end
+          end
+          
         end
 
         r.on 'edit' do
@@ -71,7 +110,7 @@ class BookApplication < Roda
             @parameters = @book.to_h
             view('book_edit')
           end
-
+            
           r.post do
             @parameters = DryResultFormeWrapper.new(BookFormSchema.call(r.params))
             if @parameters.success?
