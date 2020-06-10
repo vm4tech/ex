@@ -81,6 +81,23 @@ class TopicApplication < Roda
         r.is do
           view('topic')
         end
+
+        r.on 'new' do
+          r.get do
+            @parameters = {}
+            view('event_new')
+          end
+  
+          r.post do
+            @parameters = DryResultFormeWrapper.new(EventFormSchema.call(r.params))
+            if @parameters.success?
+              event_id = opts[:topics].topic_by_id(topic_id).event_list.add_event(@parameters)
+              r.redirect "/topics/#{topic_id}"
+            else
+              view('event_new')
+            end
+          end
+        end
         
         r.on Integer do |event_id|
           @event = @topic.event_list.event_by_id(event_id)
@@ -106,16 +123,16 @@ class TopicApplication < Roda
           r.on 'delete' do
             r.get do
               @parameters = {}
-              view('topic_delete')
+              view('event_delete')
             end
 
             r.post do
               @parameters = DryResultFormeWrapper.new(DeleteSchema.call(r.params))
               if @parameters.success?
                 opts[:topics].topic_by_id(topic_id).event_list.delete_event(@event.id)
-                r.redirect('/topics')
+                r.redirect "/topics/#{@topic.id}"
               else
-                view('topic_delete')
+                view('event_delete')
               end
             end
           end

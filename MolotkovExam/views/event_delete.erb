@@ -1,10 +1,10 @@
 <div class="grid-x grid-margin-x">
-  <div class="cell large-12">
-    Вы действительно хотите удалить тему? 
-     Так же будут удалены все события 
-     <div class="callout success">
-        <h3> <%= @topic.name %>? </h3>
+  <div class="cell large-12 warning">
+    Вы действительно хотите удалить cобытие?  
+    <div class="callout success">
+        <h3> <%= @event.name %> </h3>
     </div>
+    
   </div>
 </div>
 
@@ -15,7 +15,7 @@
     </div>
     <div class="large-12 cell">
       <%= f.button(value: 'Удалить', class: 'button alert') %>
-      <a href="/topics/<%= @topic.id %>" class="button hollow secondary">Отмена</a>
+      <a href="/topics/<%= @topic.id %>" class="hollow button secondary">Отмена</a>
     </div>
   </div>
 <% end %>

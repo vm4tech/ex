@@ -2,6 +2,11 @@
 
 require 'dry-schema'
 
-TopicDeleteSchema = Dry::Schema.Params do
-  required(:confirmation).filled(true)
+require_relative 'schema_types'
+
+EventFormSchema = Dry::Schema.Params do
+  required(:name).filled(SchemaTypes::StrippedString)
+  required(:description).filled(SchemaTypes::StrippedString)
+  required(:start_time).filled(:date)
+  required(:end_time).filled(:date)  
 end

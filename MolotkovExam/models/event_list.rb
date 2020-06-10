@@ -27,7 +27,7 @@ class EventList
       start_time: parameters[:start_time],
       end_time: parameters[:end_time],
     )
-    events_id
+    event_id
   end
 
   def update_events(id, parameters)

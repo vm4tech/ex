@@ -30,11 +30,13 @@
           </div>
         <% end %>
       <% end %>
-      
+      <a href="/topics/<%= @topic.id %>/new" class="button">
+      Добавить событие
+    </a>
 
 
     <a class="button" href="/topics/<%= @topic.id %>/edit">Редактировать</a>
-    <a class="button warning" href="/topics/<%= @topic.id %>/delete">Удалить</a>
-    <a class="button secondary" href="/topics">Назад к списку тем</a>
+    <a class="button alert" href="/topics/<%= @topic.id %>/delete">Удалить</a>
+    <a class="button hollow secondary" href="/topics">Назад к списку тем</a>
   </div>
 </div>
