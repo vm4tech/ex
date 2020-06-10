@@ -8,6 +8,6 @@ require_relative 'book_cover_type'
 BookFormSchema = Dry::Schema.Params do
   required(:name).filled(SchemaTypes::StrippedString)
   required(:description).filled(SchemaTypes::StrippedString)
-  required(:start_time).filled(:date)
-  required(:end_time).filled(:date)  
+  required(:priority).filled(:integer, gteq?: 1, lteq?: 4)
+  required(:last_update).filled(:date)  
 end

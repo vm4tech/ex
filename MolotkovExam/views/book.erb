@@ -4,8 +4,9 @@
 
     <p>Название: <%= @book.name %></p>
     <p>Автор: <%= @book.description %></p>
-    <p>Дата публикации: <%= @book.start_time %></p>
-    <p>Дата публикации 2: <%= @book.end_time %></p>
+    <p>Дата публикации: <%= @book.priority %></p>
+    <p>Дата публикации 2: <%= @book.last_update %></p>
+    <p>Автор: <%= @book.event_list %></p>
    
 
     <a class="button" href="/books/<%= @book.id %>/edit">Редактировать</a>
