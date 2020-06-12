@@ -19,8 +19,13 @@ class EventList
   end
 
   def add_event(parameters)
-    pp @events.keys.max 
-    event_id = @events.keys.max + 1
+    # pp @events.keys.max 
+    event_id = if @events.empty?
+                1
+              else
+                 @events.keys.max + 1
+              end
+
     @events[event_id] = Event.new(
       id: event_id,
       name: parameters[:name],
@@ -32,7 +37,6 @@ class EventList
   end
 
   def update_events(id, parameters)
-    
     events = @events[id]
     events.name = parameters[:name]
     events.description = parameters[:description]

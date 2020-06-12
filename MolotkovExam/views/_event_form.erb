@@ -7,16 +7,10 @@
       <%= f.input(:description, type: :text, label: 'Описание темы', placeholder: 'Фултон Хел')%>
     </div>
     <div class="large-12 cell">
-       <%= f.input(:start_date, type: :date, label: 'Начало события', placeholder: '2020-12-10') %>
+      <%= f.input(:start_time, type: :datetime, label: 'Конец события', placeholder: '2020-12-10')%>
     </div>
     <div class="large-12 cell">
-      <%= f.input(:start_time, type: :time, label: 'Конец события', placeholder: '2020-12-10')%>
-    </div>
-    <div class="large-12 cell">
-      <%= f.input(:end_date, type: :date, label: 'Конец события', placeholder: '2020-12-10')%>
-    </div>
-    <div class="large-12 cell">
-      <%= f.input(:end_time, type: :time, label: 'Конец события', placeholder: '2020-12-10')%>
+      <%= f.input(:end_time, type: :datetime, label: 'Конец события', placeholder: '2020-12-10')%>
     </div>
     <div class="large-12 cell">
       <%= f.button(value: form_type, class: 'button') %>

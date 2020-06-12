@@ -88,7 +88,7 @@ class TopicApplication < Roda
 
       r.on Integer do |topic_id|
         @topic = opts[:topics].topic_by_id(topic_id)
-        # @events = @topic.event_list.all_events
+        @events = @topic.event_list.all_events
         # pp @events
         next if @topic.nil?
         
@@ -105,8 +105,9 @@ class TopicApplication < Roda
           r.post do
             @parameters = DryResultFormeWrapper.new(EventFormSchema.call(r.params))
             if @parameters.success?
+              pp opts[:topics].topic_by_id(topic_id).event_list
               event_id = opts[:topics].topic_by_id(topic_id).event_list.add_event(@parameters)
-              r.redirect "/topics/#{topic_id}"
+              r.redirect "/topics/#{topic_id}/#{event_id}"
             else
               view('event_new')
             end

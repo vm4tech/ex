@@ -33,7 +33,7 @@ class TopicList
       description: parameters[:description],
       priority: parameters[:priority],
       last_update: parameters[:last_update],
-      event_list: []
+      event_list: EventList.new
     )
     topic_id
   end
@@ -48,7 +48,7 @@ class TopicList
     topic.name = parameters[:name]
     topic.description = parameters[:description]
     topic.priority = parameters[:priority]
-    topic.last_update = parameters[:last_update]
+    # topic.last_update = parameters[:last_update]
   end
 
   def delete_topic(id)

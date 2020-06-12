@@ -1,4 +1,5 @@
-
+<div class="grid-x grid-margin-x">
+  <div class="cell large-12">
     <h3>Информация о темах</h3>
 
     <p>Тема: <%= @topic.name %></p>
@@ -9,8 +10,7 @@
           <div class="grid-x grid-margin-x">
         <div class="cell large-12">
           <h3>События: </h3>
-          <%= pp @events %>
-       <% if @events == 0 || @events == nil %>
+       <% if @events.empty? %>
         <div class="cell large-12 callout warning">
           В приложении нет информации о Событиях.
           Добавить?
@@ -39,4 +39,6 @@
     <a class="button alert" href="/topics/<%= @topic.id %>/delete">Удалить</a>
     <a class="button hollow secondary" href="/topics">Назад к списку тем</a>
   </div>
+</div>
+</div>
 </div>
