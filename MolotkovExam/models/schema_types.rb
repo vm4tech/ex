@@ -7,4 +7,5 @@ module SchemaTypes
   include Dry.Types
 
   StrippedString = self::String.constructor(&:strip)
+  Time = self::Params::Time
 end

@@ -3,8 +3,8 @@
 require 'date'
 require 'forme'
 require 'roda'
-
 require_relative 'models'
+
 
 # The application class
 class TopicApplication < Roda
@@ -19,41 +19,47 @@ class TopicApplication < Roda
     opts[:serve_static] = true
   end
 
-  opts[:topics] = TopicList.new(
-    [
-      Topic.new(
-        id: 25,
-        name: 'Programming Ruby 1.9 & 2.0',
-        description: 'Dave Thomas',
-        priority: 2,
-        last_update: Date.parse('2013-06-20'),
-        event_list: EventList.new([
-          Event.new(
-            id: 1,
-            name: 'Vlad',
-            description: 'Molotkov',
-            start_time: '2000-07-20',
-            end_time: '2000-07-22'
-          ),
-          Event.new(
-            id: 30,
-            name: 'Den',
-            description: 'Zyablitcev',
-            start_time: '2000-07-23',
-            end_time: '2000-07-24'
-          )
-        ])
-      ),
-      Topic.new(
-        id: 5,
-        name: 'The Pragmatic Programmer',
-        description: 'Dave Thomas, Andreyw Hunt',
-        priority: 4,
-        last_update: Date.parse('1999-10-01'),
-        event_list: []
-      )
-    ]
-  )
+  opts[:store] = Store.new
+  opts[:topics] = opts[:store].topic_list
+  # TopicList.new(
+  #   [
+  #     Topic.new(
+  #       id: 25,
+  #       name: 'Programming Ruby 1.9 & 2.0',
+  #       description: 'Dave Thomas',
+  #       priority: 2,
+  #       last_update: Date.parse('2013-06-20'),
+  #       event_list: EventList.new([
+  #         Event.new(
+  #           id: 1,
+  #           name: 'Vlad',
+  #           description: 'Molotkov',
+  #           start_date: Date.parse('2000-07-20'),
+  #           # start_time: "00:00",
+  #           end_date: Date.parse('2000-07-22')
+  #           # end_time:"00:00"
+  #         ),
+  #         Event.new(
+  #           id: 30,
+  #           name: 'Den',
+  #           description: 'Zyablitcev',
+  #           start_date: Date.parse('2000-07-23'),
+  #           # start_time: "00:00",
+  #           end_date: Date.parse('2000-07-24')
+  #           # end_time: "00:00"
+  #         )
+  #       ])
+  #     ),
+  #     Topic.new(
+  #       id: 5,
+  #       name: 'The Pragmatic Programmer',
+  #       description: 'Dave Thomas, Andreyw Hunt',
+  #       priority: 4,
+  #       last_update: Date.parse('1999-10-01'),
+  #       event_list: []
+  #     )
+  #   ]
+  # )
 
   status_handler(404) do
     view('not_found')
@@ -66,6 +72,14 @@ class TopicApplication < Roda
       r.redirect '/topics'
     end
 
+    r.on 'calendar' do
+      
+
+      r.is do
+        view('calendar')
+      end
+    end
+
     r.on 'topics' do
       r.is do
         @topics = opts[:topics].all_topics
@@ -74,7 +88,7 @@ class TopicApplication < Roda
 
       r.on Integer do |topic_id|
         @topic = opts[:topics].topic_by_id(topic_id)
-        @events = @topic.event_list.all_events
+        # @events = @topic.event_list.all_events
         # pp @events
         next if @topic.nil?
         
@@ -113,10 +127,14 @@ class TopicApplication < Roda
               end
 
               r.post do
-                @parameters = DryResultFormeWrapper.new(EventFromSchema.call(r.params))
+                pp r.params
+                @parameters = DryResultFormeWrapper.new(EventFormSchema.call(r.params))
                 if @parameters.success?
                   opts[:topics].topic_by_id(topic_id).event_list.update_events(@event.id, @parameters)
+                else
+                  view('event_edit')
                 end
+                
               end
           end
 

@@ -1,5 +1,4 @@
-<div class="grid-x">
-  <div class="cell large-12">
+
     <h3>Информация о темах</h3>
 
     <p>Тема: <%= @topic.name %></p>
@@ -10,7 +9,8 @@
           <div class="grid-x grid-margin-x">
         <div class="cell large-12">
           <h3>События: </h3>
-       <% if @events.size == 0 %>
+          <%= pp @events %>
+       <% if @events == 0 || @events == nil %>
         <div class="cell large-12 callout warning">
           В приложении нет информации о Событиях.
           Добавить?

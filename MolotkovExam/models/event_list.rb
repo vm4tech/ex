@@ -19,6 +19,7 @@ class EventList
   end
 
   def add_event(parameters)
+    pp @events.keys.max 
     event_id = @events.keys.max + 1
     @events[event_id] = Event.new(
       id: event_id,

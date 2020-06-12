@@ -19,10 +19,14 @@ class TopicList
     @topics[id]
   end
 
-
-
   def add_topic(parameters)
-    topic_id = @topics.keys.max + 1
+      if @topics.empty?
+        topic_id = 1
+      else
+        topic_id = @topics.keys.max + 1
+      end    
+
+    # topic_id = 1
     @topics[topic_id] = Topic.new(
       id: topic_id,
       name: parameters[:name],
@@ -32,6 +36,10 @@ class TopicList
       event_list: []
     )
     topic_id
+  end
+
+  def add_real_topic(topic)
+    @topics[topic.id] = topic
   end
 
   def update_topic(id, parameters)
